@@ -42,7 +42,7 @@ def notifies_json(request):
     """由Ajax获取的未读通知"""
     user = request.siteuser
     if not user:
-        return HttpResponse(json.dumps([]), mimetype='application/json')
+        return HttpResponse(json.dumps([]), content_type='application/json')
 
     notifies = Notify.objects.filter(user=user, has_read=False).select_related('sender').order_by('-notify_at')
     def _make_html(n):
@@ -53,7 +53,7 @@ def notifies_json(request):
             n.text,
         )
     html = [_make_html(n) for n in notifies]
-    return HttpResponse(json.dumps(html), mimetype='application/json')
+    return HttpResponse(json.dumps(html), content_type='application/json')
 
 
 def get_notifies(request):
